@@ -4,7 +4,7 @@ import thread
 
 RESCUER_PORT = 9119                                                     # Rescuer's app's port of listening
 RPI_PORT = 9119                                                         # RPI's port of listening for buried phone's connection
-RESCUER_ADDRESS = '192.168.1.8'                                         # TODO: fix to 192.168.0.250
+RESCUER_ADDRESS = '192.168.1.10'                                         # TODO: fix to 192.168.0.250
 BURIED_ADDRESS = ''                                                     # UNKNOWN HOST
 PACKET_DIM = 1024                                                       # Packet length for receiving data
 
@@ -32,17 +32,17 @@ class SocketManager:
         while not self.buried_socket_stop_connection and not self.buried_socket_connection_status:      # Wait that the connection becomes available (or it stop if someone stopped the connection)
             pass
         if not self.buried_socket_stop_connection and self.buried_socket_connection_status:             # Check if the socket can send data
-            self.buried_socket['phone'].send(message)                                                    # Send data
+            self.buried_socket['phone'].send(message)                                                   # Send data
 
     def stop_connection_rescueapp(self):
-        self.rescuer_socket_stop_connection = True
-        self.rescuer_socket_connection_status = False
-        self.rescuer_socket.shutdown(socket.SHUT_WR)
+        self.rescuer_socket_stop_connection = True                                                      # Set the flag to stop the connection to True
+        self.rescuer_socket_connection_status = False                                                   # Set the status flag of the connection to False (not connected)
+        self.rescuer_socket.shutdown(socket.SHUT_WR)                                                    # Stops the waiting recv function
 
     def stop_connection_buriedapp(self):
-        self.buried_socket_stop_connection = True
-        self.buried_socket_connection_status = False
-        self.buried_socket['phone'].shutdown(socket.SHUT_WR)
+        self.buried_socket_stop_connection = True                                                       # Set the flag to stop the connection to True
+        self.buried_socket_connection_status = False                                                    # Set the status flag of the connection to False (not connected)
+        self.buried_socket['phone'].shutdown(socket.SHUT_WR)                                            # Stops the waiting recv function
 
     def start_connect_rescueapp(self):
         print 'starting thread for rescuer app connection..'
@@ -56,11 +56,11 @@ class SocketManager:
         number_empty_messages = 0                                       # If the client stop the connection, the receiver starts to receive empty messages
         error = False                                                   # Tells us if the connection was closed due to an error
         print 'TRESCUER: connecting..'
-        while not self.rescuer_socket_connection_status and not self.rescuer_socket_stop_connection:
+        while not self.rescuer_socket_connection_status and not self.rescuer_socket_stop_connection: # Will try repeatedly until it will connect to the rescuer's app (unless the user wants to stop the connection)
             try:
                 self.rescuer_socket.connect((RESCUER_ADDRESS, RESCUER_PORT))    # Tries to connect to rescuer app (it waits until a result)
                 print 'TRESCUER: connected!'
-                self.rescuer_socket_connection_status = True
+                self.rescuer_socket_connection_status = True                    # Connected!
             except:
                 pass
 
@@ -91,7 +91,7 @@ class SocketManager:
         self.server_socket.listen(1)                                                          # Listen up to 1 connection TODO: Increment number of connection
         self.buried_socket['phone'], self.buried_socket['addr'] = self.server_socket.accept() # Accept connection, it returns the client socket and its address
         print 'TBURIED: device connected with addr: ', self.buried_socket['addr']
-        self.buried_socket_connection_status = True
+        self.buried_socket_connection_status = True                      # Connected!
 
         while not self.buried_socket_stop_connection:                    # If we can keep alive the connection
             try:
@@ -102,14 +102,14 @@ class SocketManager:
                         self.buried_socket_stop_connection = True
                 else:
                     print 'TRESCUER: received data = ', data
-                    number_empty_mess = 0
+                    number_empty_mess = 0                                # Reset of the counter of empty messages received
             except:
-                self.buried_socket_stop_connection = True
-                error = True
+                self.buried_socket_stop_connection = True                # If there is an error, stop the connection (maybe the host crashed)
+                error = True                                             # Set error flag to True
                 print 'Connection resetted by the peer or connection error'
 
         print 'TBURIED: closing connection'
-        if not error:
+        if not error:                                                    # If there was en error, then the socket should be ended
             self.buried_socket.close()
         print 'TBURIED: connection closed!'
 
@@ -121,4 +121,4 @@ socket_manager.start_connect_buriedapp()
 socket_manager.send_data_buriedapp('Where are you charlie?')
 
 
-while(True):pass
+while(True):pass                                                        # Just to avoid that the programme stops early while testing
