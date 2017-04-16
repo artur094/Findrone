@@ -56,10 +56,13 @@ class SocketManager:
         number_empty_messages = 0                                       # If the client stop the connection, the receiver starts to receive empty messages
         error = False                                                   # Tells us if the connection was closed due to an error
         print 'TRESCUER: connecting..'
-        # TODO: check better if it crashes when can't find the server
-        self.rescuer_socket.connect((RESCUER_ADDRESS, RESCUER_PORT))    # Tries to connect to rescuer app (it waits until a result)
-        print 'TRESCUER: connected!'
-        self.rescuer_socket_connection_status = True
+        while not self.rescuer_socket_connection_status and not self.rescuer_socket_stop_connection:
+            try:
+                self.rescuer_socket.connect((RESCUER_ADDRESS, RESCUER_PORT))    # Tries to connect to rescuer app (it waits until a result)
+                print 'TRESCUER: connected!'
+                self.rescuer_socket_connection_status = True
+            except:
+                pass
 
         while not self.rescuer_socket_stop_connection:                  # If we can keep alive the connection
             try:
