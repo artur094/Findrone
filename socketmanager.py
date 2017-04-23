@@ -101,7 +101,7 @@ class SocketManager:
                     if number_empty_mess > 2:                            # If we received 3 consecutive messages, then stop the connection
                         self.buried_socket_stop_connection = True
                 else:
-                    print 'TRESCUER: received data = ', data
+                    print 'TBURIED: received data = ', data
                     number_empty_mess = 0                                # Reset of the counter of empty messages received
             except:
                 self.buried_socket_stop_connection = True                # If there is an error, stop the connection (maybe the host crashed)
@@ -112,13 +112,3 @@ class SocketManager:
         if not error:                                                    # If there was en error, then the socket should be ended
             self.buried_socket.close()
         print 'TBURIED: connection closed!'
-
-
-
-socket_manager = SocketManager()
-#socket_manager.start_connect_rescueapp()
-socket_manager.start_connect_buriedapp()
-socket_manager.send_data_buriedapp('Where are you charlie?')
-
-
-while(True):pass                                                        # Just to avoid that the programme stops early while testing
