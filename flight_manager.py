@@ -51,7 +51,6 @@ class Rectangle:
             else:
                 self.start_right_on_length_side()
 
-
     def start_left(self):
         print 'Drone position: ', self.drone_position[0], ', ', self.drone_position[1]
         # Starting position for the scan
