@@ -375,17 +375,17 @@ class Rectangle:
 
     def scan_line(self, start_position, final_position, height):
         # Stop the scan if the phone is connected to the drone
-        return self.move(start_position, final_position, height, True)
+        return self.move_and_scan(start_position, final_position, height, True)
 
     # Does not check for possible connections from phone.
     # Used only to move to the initial point for the search
     # And to return to the starting point when the search is done
     def move(self, start_position, final_position, height):
-        self.move(start_position,final_position,height,False)
+        self.move_and_scan(start_position,final_position,height,False)
 
     # Returns True if the MOVE method has been stopped due to phone connection (on request)
     # Returns False otherwise
-    def move(self, start_position, final_position, height, stop_on_phone_connection):
+    def move_and_scan(self, start_position, final_position, height, stop_on_phone_connection):
         #Move left/right to reach the right X coordinate
         if start_position[0] > final_position[0]:
             # Final position is on left side of the drone
