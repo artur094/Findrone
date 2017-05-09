@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47c7222b-f82b-48be-bf31-87af4e28e5f9" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gps_module.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/flight_manager.py" afterPath="$PROJECT_DIR$/flight_manager.py" />
     </list>
@@ -35,7 +36,7 @@
       <file leaf-file-name="socketmanager.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/socketmanager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1515">
+            <state relative-caret-position="1118">
               <caret line="103" column="34" lean-forward="false" selection-start-line="103" selection-start-column="34" selection-end-line="103" selection-end-column="34" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -44,32 +45,42 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flight_manager.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="flight_manager.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flight_manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="579">
-              <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+            <state relative-caret-position="586">
+              <caret line="385" column="54" lean-forward="false" selection-start-line="385" selection-start-column="54" selection-end-line="385" selection-end-column="54" />
               <folding>
-                <element signature="e#1235#1728#0" expanded="false" />
-                <element signature="e#1764#5058#0" expanded="false" />
-                <element signature="e#2641#2735#0" expanded="false" />
-                <element signature="e#3381#3475#0" expanded="false" />
-                <element signature="e#3882#3976#0" expanded="false" />
-                <element signature="e#4625#4812#0" expanded="false" />
-                <element signature="e#5095#8332#0" expanded="false" />
-                <element signature="e#5990#6084#0" expanded="false" />
-                <element signature="e#8383#11570#0" expanded="false" />
-                <element signature="e#11622#14806#0" expanded="false" />
+                <element signature="e#0#17#0" expanded="true" />
+                <element signature="e#4359#4453#0" expanded="false" />
+                <element signature="e#4860#4954#0" expanded="false" />
+                <element signature="e#5603#5790#0" expanded="false" />
+                <element signature="e#6073#9310#0" expanded="false" />
+                <element signature="e#6968#7062#0" expanded="false" />
+                <element signature="e#9361#12548#0" expanded="false" />
+                <element signature="e#12600#15784#0" expanded="false" />
+                <element signature="e#16631#18087#0" expanded="false" />
+                <element signature="e#18301#19173#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gps_module.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gps_module.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="21" lean-forward="false" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
-              <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -80,8 +91,8 @@
       <file leaf-file-name="demo.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ardrone/demo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="18">
+              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -116,6 +127,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>searc</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -130,6 +146,7 @@
         <option value="$PROJECT_DIR$/wifi_signal.py" />
         <option value="$PROJECT_DIR$/socketmanager.py" />
         <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/gps_module.py" />
         <option value="$PROJECT_DIR$/flight_manager.py" />
       </list>
     </option>
@@ -160,6 +177,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -188,8 +207,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -561,8 +578,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32417583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33150184" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -623,7 +641,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/flight_manager.py</url>
-          <line>40</line>
+          <line>52</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -632,14 +650,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ardrone/libardrone.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wifi_signal.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -673,16 +683,16 @@
         <state relative-caret-position="1575">
           <caret line="119" column="26" lean-forward="false" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
           <folding>
-            <element signature="e#1235#1728#0" expanded="false" />
-            <element signature="e#1764#5058#0" expanded="false" />
-            <element signature="e#2641#2735#0" expanded="false" />
-            <element signature="e#3381#3475#0" expanded="false" />
-            <element signature="e#3882#3976#0" expanded="false" />
-            <element signature="e#4625#4812#0" expanded="false" />
-            <element signature="e#5095#8332#0" expanded="false" />
-            <element signature="e#5990#6084#0" expanded="false" />
-            <element signature="e#8383#11570#0" expanded="false" />
-            <element signature="e#11622#14806#0" expanded="false" />
+            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#4359#4453#0" expanded="false" />
+            <element signature="e#4860#4954#0" expanded="false" />
+            <element signature="e#5603#5790#0" expanded="false" />
+            <element signature="e#6073#9310#0" expanded="false" />
+            <element signature="e#6968#7062#0" expanded="false" />
+            <element signature="e#9361#12548#0" expanded="false" />
+            <element signature="e#12600#15784#0" expanded="false" />
+            <element signature="e#16631#18087#0" expanded="false" />
+            <element signature="e#18301#19173#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -736,16 +746,16 @@
         <state relative-caret-position="1575">
           <caret line="119" column="26" lean-forward="false" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
           <folding>
-            <element signature="e#1235#1728#0" expanded="false" />
-            <element signature="e#1764#5058#0" expanded="false" />
-            <element signature="e#2641#2735#0" expanded="false" />
-            <element signature="e#3381#3475#0" expanded="false" />
-            <element signature="e#3882#3976#0" expanded="false" />
-            <element signature="e#4625#4812#0" expanded="false" />
-            <element signature="e#5095#8332#0" expanded="false" />
-            <element signature="e#5990#6084#0" expanded="false" />
-            <element signature="e#8383#11570#0" expanded="false" />
-            <element signature="e#11622#14806#0" expanded="false" />
+            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#4359#4453#0" expanded="false" />
+            <element signature="e#4860#4954#0" expanded="false" />
+            <element signature="e#5603#5790#0" expanded="false" />
+            <element signature="e#6073#9310#0" expanded="false" />
+            <element signature="e#6968#7062#0" expanded="false" />
+            <element signature="e#9361#12548#0" expanded="false" />
+            <element signature="e#12600#15784#0" expanded="false" />
+            <element signature="e#16631#18087#0" expanded="false" />
+            <element signature="e#18301#19173#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -799,16 +809,16 @@
         <state relative-caret-position="1575">
           <caret line="119" column="26" lean-forward="false" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
           <folding>
-            <element signature="e#1235#1728#0" expanded="false" />
-            <element signature="e#1764#5058#0" expanded="false" />
-            <element signature="e#2641#2735#0" expanded="false" />
-            <element signature="e#3381#3475#0" expanded="false" />
-            <element signature="e#3882#3976#0" expanded="false" />
-            <element signature="e#4625#4812#0" expanded="false" />
-            <element signature="e#5095#8332#0" expanded="false" />
-            <element signature="e#5990#6084#0" expanded="false" />
-            <element signature="e#8383#11570#0" expanded="false" />
-            <element signature="e#11622#14806#0" expanded="false" />
+            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#4359#4453#0" expanded="false" />
+            <element signature="e#4860#4954#0" expanded="false" />
+            <element signature="e#5603#5790#0" expanded="false" />
+            <element signature="e#6073#9310#0" expanded="false" />
+            <element signature="e#6968#7062#0" expanded="false" />
+            <element signature="e#9361#12548#0" expanded="false" />
+            <element signature="e#12600#15784#0" expanded="false" />
+            <element signature="e#16631#18087#0" expanded="false" />
+            <element signature="e#18301#19173#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -943,9 +953,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ardrone/libardrone.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/socketmanager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1515">
+        <state relative-caret-position="1118">
           <caret line="103" column="34" lean-forward="false" selection-start-line="103" selection-start-column="34" selection-end-line="103" selection-end-column="34" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
@@ -961,37 +979,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flight_manager.py">
+    <entry file="file://$PROJECT_DIR$/gps_module.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding>
-            <element signature="e#1235#1728#0" expanded="false" />
-            <element signature="e#1764#5058#0" expanded="false" />
-            <element signature="e#2641#2735#0" expanded="false" />
-            <element signature="e#3381#3475#0" expanded="false" />
-            <element signature="e#3882#3976#0" expanded="false" />
-            <element signature="e#4625#4812#0" expanded="false" />
-            <element signature="e#5095#8332#0" expanded="false" />
-            <element signature="e#5990#6084#0" expanded="false" />
-            <element signature="e#8383#11570#0" expanded="false" />
-            <element signature="e#11622#14806#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ardrone/libardrone.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ardrone/demo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        <state relative-caret-position="270">
+          <caret line="18" column="21" lean-forward="false" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -999,9 +990,36 @@
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ardrone/demo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flight_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="586">
+          <caret line="385" column="54" lean-forward="false" selection-start-line="385" selection-start-column="54" selection-end-line="385" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#4359#4453#0" expanded="false" />
+            <element signature="e#4860#4954#0" expanded="false" />
+            <element signature="e#5603#5790#0" expanded="false" />
+            <element signature="e#6073#9310#0" expanded="false" />
+            <element signature="e#6968#7062#0" expanded="false" />
+            <element signature="e#9361#12548#0" expanded="false" />
+            <element signature="e#12600#15784#0" expanded="false" />
+            <element signature="e#16631#18087#0" expanded="false" />
+            <element signature="e#18301#19173#0" expanded="false" />
           </folding>
         </state>
       </provider>
