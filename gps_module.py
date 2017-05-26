@@ -1,14 +1,28 @@
 from math import radians, cos, sin, asin, sqrt
+import thread
+import gps
 
 class GPSModule:
     coordinate = (0, 0) # (latitude (N/S), longitude (E/W))
+    stop = False
+    session = None
 
     def __init__(self):
-        pass
+        session = gps.gps("localhost", "2947")
+        session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
+        #thread.start_new_thread(self.update(), ())
+
 
     def update(self):
-        #Update the coordinate of the drone
-        pass
+        report = self.session.next()
+        if report['class'] == 'TPV':
+            if hasattr(report, 'latitude'):
+                new_coord = (report['latitude'], self.coordinate[1])
+                self.coordinate = new_coord
+            if hasattr(report, 'longitude'):
+                new_coord = (self.coordinate[0], report['longitude'])
+                self.coordinate = new_coord
+
 
     def getCoordinate(self):
         #Return updated coordinate of the drone

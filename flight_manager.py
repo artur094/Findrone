@@ -1,5 +1,6 @@
 import math, time
 from gps_module import GPSModule
+from wifi_signal import WifiSignal
 
 DIRECTION_LEFT = 'left'
 DIRECTION_RIGHT = 'right'
@@ -7,7 +8,7 @@ DIRECTION_UP = 'up'
 DIRECTION_DOWN = 'down'
 TIME_TO_WAIT_BEFORE_LAND = 60 # 1 Min
 
-class Rectangle:
+class Flight:
     width = 0               # Meters
     length = 0              # Meters
     height = 2              # Meters
@@ -23,6 +24,7 @@ class Rectangle:
     initial_drone_coordinate = (0,0)
     drone_position = (0,0)
     gps = GPSModule()
+    wifi = WifiSignal()
 
     start_direction = 'left'
 
@@ -80,6 +82,10 @@ class Rectangle:
 
         #drone.land()
         #End... I hope for a good job!
+
+    #TODO: write stop function
+    def stop(self):
+        pass
 
     def start_left(self):
         print 'Drone position: ', self.drone_position[0], ', ', self.drone_position[1]
@@ -370,8 +376,100 @@ class Rectangle:
         # If no WiFi connection has been found, then go home
         self.move(self.drone_position, self.initial_drone_position, self.height)  # TODO: avoid crash between drones!
 
-    def start_follow_wifi_signal(self):
-        pass
+    '''
+        direction --> actual direction of the drone 
+        secondary_direction --> if direction is UP/DOWN, secondary_direction is the best direction between LEFT/RIGHT to check
+    '''
+    def start_follow_wifi_signal(self, direction,secondary_direction, height):
+        delta_s = 0.5
+        number_step_below_signal = 3
+        self.follow_wifi_signal_direction(direction, delta_s, number_step_below_signal, height)
+        self.follow_wifi_signal_direction(secondary_direction, delta_s, number_step_below_signal, height)
+
+        #TO CHECK
+
+        delta_s = 0.5
+        number_step_below_signal = 3
+        self.follow_wifi_signal_direction(direction, delta_s, number_step_below_signal, height)
+        self.follow_wifi_signal_direction(secondary_direction, delta_s, number_step_below_signal, height)
+
+    def follow_wifi_signal_direction(self, direction,distance_movement,limit_step_below_signal_strength, height):
+        decreasing = False
+        negative_direction = self.opposite_direction(direction)
+        linear_position = 0
+        number_step_below_signal_strength = 0
+        ss_pos_list = []
+
+        ss_pos = {
+            'line_position',linear_position,
+            'gps_position', self.gps.getCoordinate(),
+            'signal_strength', self.wifi.getDistance()
+        }
+        ss_pos_list.append(ss_pos)
+        max_ss_pos = ss_pos
+
+        #move forward
+        while not decreasing:
+            self.move_drone(direction, distance_movement, height, False)
+
+            linear_position = linear_position + distance_movement
+
+            ss_pos = {
+                'line_position', linear_position,
+                'gps_position', self.gps.getCoordinate(),
+                'signal_strength', self.wifi.getDistance()
+            }
+            ss_pos_list.append(ss_pos)
+
+            if ss_pos['signal_strength'] > max_ss_pos['signal_strength']:
+                max_ss_pos = ss_pos
+                number_step_below_signal_strength = 0
+            else:
+                number_step_below_signal_strength += 1
+
+            if number_step_below_signal_strength > limit_step_below_signal_strength:
+                decreasing = True
+
+        # move to the position with the highest signal strength
+        distance = linear_position - max_ss_pos['line_position']
+        self.move_drone(negative_direction, distance, height, False)
+
+        # reset data
+        decreasing = False
+        number_step_below_signal_strength = 0
+        linear_position = max_ss_pos['line_position']
+
+        #move back
+        while not decreasing:
+            self.move_drone(negative_direction, distance_movement, height, False)
+
+            linear_position = linear_position - distance_movement
+
+            ss_pos = {
+                'line_position', linear_position,
+                'gps_position', self.gps.getCoordinate(),
+                'signal_strength', self.wifi.getDistance()
+            }
+
+            ss_pos_list.append(ss_pos)
+
+            if ss_pos['signal_strength'] > max_ss_pos['signal_strength']:
+                max_ss_pos = ss_pos
+                number_step_below_signal_strength = 0
+            else:
+                number_step_below_signal_strength+=1
+
+            if number_step_below_signal_strength > limit_step_below_signal_strength:
+                decreasing = True
+
+
+        # move to the position with the highest signal strength
+        distance = max_ss_pos['line_position'] - linear_position
+        self.move_drone(direction, distance, height, False)
+
+
+
+
 
     def scan_line(self, start_position, final_position, height):
         # Stop the scan if the phone is connected to the drone
@@ -449,8 +547,18 @@ class Rectangle:
         # Stop the drone
         # drone.hover
 
+    def opposite_direction(self, direction):
+        if direction == DIRECTION_DOWN:
+            return DIRECTION_UP
+        elif direction == DIRECTION_UP:
+            return DIRECTION_DOWN
+        elif direction == DIRECTION_RIGHT:
+            return DIRECTION_LEFT
+        elif direction == DIRECTION_LEFT:
+            return DIRECTION_RIGHT
+        return None
 
 
-print 'Starting everything...'
-rect = Rectangle(100, 200, (60,0))
-rect.start()
+#print 'Starting everything...'
+#rect = Rectangle(100, 200, (60,0))
+#rect.start()
