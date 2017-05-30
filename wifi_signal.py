@@ -2,6 +2,7 @@ import math
 import time
 
 class WifiSignal:
+    connected = False
     signal_list = []
     max_size_signal_list = 10000
     strength = 0 # dBm (the formula requires the number in dBm)
@@ -35,7 +36,7 @@ class WifiSignal:
             avg += self.signal_list[count]['strength']
         return (avg/samples_number)
 
-    def getAVG2(self, interval_time):
+    def getAVG2(self, interval_time): #Interval_time is in [s]
         avg = 0.0
         count = 0
         now = time.time()

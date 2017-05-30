@@ -1,6 +1,6 @@
 from math import radians, cos, sin, asin, sqrt
 import thread
-import gps
+#import gps
 
 class GPSModule:
     coordinate = (0, 0) # (latitude (N/S), longitude (E/W))
@@ -8,12 +8,15 @@ class GPSModule:
     session = None
 
     def __init__(self):
-        session = gps.gps("localhost", "2947")
-        session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
+        pass
+        #session = gps.gps("localhost", "2947")
+        #session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
         #thread.start_new_thread(self.update(), ())
 
 
     def update(self):
+        pass
+        '''
         report = self.session.next()
         if report['class'] == 'TPV':
             if hasattr(report, 'latitude'):
@@ -22,6 +25,7 @@ class GPSModule:
             if hasattr(report, 'longitude'):
                 new_coord = (self.coordinate[0], report['longitude'])
                 self.coordinate = new_coord
+        '''
 
 
     def getCoordinate(self):

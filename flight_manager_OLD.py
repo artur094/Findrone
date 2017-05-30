@@ -10,7 +10,6 @@ TIME_TO_WAIT_BEFORE_LAND = 60 # 1 Min
 
 class Flight:
     phone_found_handler = None
-    stop_search = False
 
     width = 0               # Meters
     length = 0              # Meters
@@ -56,10 +55,19 @@ class Flight:
             self.start_direction = 'right'
 
     def start(self):
-        if self.start_direction == 'left':
-            self.start_left()
+        print 'Starting the algorithm of search'
+        if self.w[0] > self.l[1]:
+            print 'Drone will start on bottom side'
+            if self.start_direction == 'left':
+                self.start_left()
+            else:
+                self.start_right()
         else:
-            self.start_right()
+            print 'Drone will start on left/righ side'
+            if self.start_direction == 'left':
+                self.start_left_on_length_side()
+            else:
+                self.start_right_on_length_side()
 
         # When I execute this code means:
         # No phone found --> I'm already at home --> land
@@ -81,7 +89,7 @@ class Flight:
 
     #TODO: write stop function
     def stop(self):
-        self.stop_search = True
+        pass
 
     def start_left(self):
         print 'Drone position: ', self.drone_position[0], ', ', self.drone_position[1]
@@ -215,6 +223,150 @@ class Flight:
 
             # Go left
             next_position = (self.drone_position[0] + left_movement, self.drone_position[1])
+            print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
+            self.scan_line(self.drone_position, next_position, self.height)
+
+            # If the drone has found a TCP connection, the start to search the wifi signal
+            if found_wifi == True:
+                # Start specific algorithm of search
+                self.start_follow_wifi_signal()
+                return
+
+        # Need to check in detail if drone has covered all the area
+        # If no WiFi connection has been found, then go home
+        self.move(self.drone_position, self.initial_drone_position, self.height)  # TODO: avoid crash between drones!
+
+    def start_left_on_length_side(self):
+        print 'Drone position: ', self.drone_position[0], ', ', self.drone_position[1]
+        # Starting position for the scan
+        starting_point = (self.orig[0] + self.delta_w, self.orig[0]+self.delta_l)
+        print 'Move to coordinate: ', starting_point[0], ', ', starting_point[1]
+
+        # Move to the beginning
+        self.move(self.drone_position, starting_point, self.height)
+
+        # Start the scan
+        # TODO: fix last scan
+        while self.drone_position[1] < self.l[1]:
+            # Go left
+            next_position = (self.w[0] - self.delta_w, self.drone_position[1])
+            print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
+            found_wifi = self.scan_line(self.drone_position, next_position, self.height)
+
+            # If the drone has found a TCP connection, the start to search the wifi signal
+            if found_wifi == True:
+                # Start specific algorithm of search
+                self.start_follow_wifi_signal()
+                return
+
+            up_movement = min(2 * self.delta_l, self.l[1] - self.drone_position[1])
+
+            # Check if I can move up
+            if self.drone_position[1] >= (self.l[1] - self.delta_l):
+                break
+
+            # Go up
+            next_position = (self.drone_position[0], self.drone_position[1] + up_movement)
+            print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
+            self.scan_line(self.drone_position, next_position, self.height)
+
+            # If the drone has found a TCP connection, the start to search the wifi signal
+            if found_wifi == True:
+                # Start specific algorithm of search
+                self.start_follow_wifi_signal()
+                return
+
+            # Go right
+            next_position = (self.orig[0] + self.delta_w, self.drone_position[1])
+            print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
+            self.scan_line(self.drone_position, next_position, self.height)
+
+            # If the drone has found a TCP connection, the start to search the wifi signal
+            if found_wifi == True:
+                # Start specific algorithm of search
+                self.start_follow_wifi_signal()
+                return
+
+            up_movement = min(2 * self.delta_l, self.l[1] - self.delta_l)
+
+            # Check if I can move up
+            if self.drone_position[1] >= (self.l[1] - self.delta_l):
+                break
+
+            # Go up
+            next_position = (self.drone_position[0], self.drone_position[1] + up_movement)
+            print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
+            self.scan_line(self.drone_position, next_position, self.height)
+
+            # If the drone has found a TCP connection, the start to search the wifi signal
+            if found_wifi == True:
+                # Start specific algorithm of search
+                self.start_follow_wifi_signal()
+                return
+
+        # Need to check in detail if drone has covered all the area
+        # If no WiFi connection has been found, then go home
+        self.move(self.drone_position, self.initial_drone_position, self.height)  # TODO: avoid crash between drones!
+
+    def start_right_on_length_side(self):
+        print 'Drone position: ', self.drone_position[0], ', ', self.drone_position[1]
+        # Starting position for the scan
+        starting_point = (self.w[0] - self.delta_w, self.orig[0]+self.delta_l)
+        print 'Move to coordinate: ', starting_point[0], ', ', starting_point[1]
+
+        # Move to the beginning
+        self.move(self.drone_position, starting_point, self.height)
+
+        # Start the scan
+        # TODO: fix last scan
+        while self.drone_position[1] < self.l[1]:
+            # Go right
+            next_position = (self.orig[0] + self.delta_w, self.drone_position[1])
+            print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
+            found_wifi = self.scan_line(self.drone_position, next_position, self.height)
+
+            # If the drone has found a TCP connection, the start to search the wifi signal
+            if found_wifi == True:
+                # Start specific algorithm of search
+                self.start_follow_wifi_signal()
+                return
+
+            up_movement = min(2 * self.delta_l, self.l[1] - self.drone_position[1])
+
+            # Check if I can move up
+            if self.drone_position[1] >= (self.l[1] - self.delta_l):
+                break
+
+            # Go up
+            next_position = (self.drone_position[0], self.drone_position[1] + up_movement)
+            print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
+            self.scan_line(self.drone_position, next_position, self.height)
+
+            # If the drone has found a TCP connection, the start to search the wifi signal
+            if found_wifi == True:
+                # Start specific algorithm of search
+                self.start_follow_wifi_signal()
+                return
+
+            # Go left
+            next_position = (self.w[0] - self.delta_w, self.drone_position[1])
+            print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
+            self.scan_line(self.drone_position, next_position, self.height)
+
+            # If the drone has found a TCP connection, the start to search the wifi signal
+            if found_wifi == True:
+                # Start specific algorithm of search
+                self.start_follow_wifi_signal()
+                return
+
+            up_movement = min(2 * self.delta_l, self.l[1] - self.delta_l)
+
+            # Check if I can move up
+            if self.drone_position[1] >= (self.l[1] - self.delta_l):
+                break
+
+            # Go up
+            next_position = (self.drone_position[0], self.drone_position[1] + up_movement)
             print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
             self.scan_line(self.drone_position, next_position, self.height)
 

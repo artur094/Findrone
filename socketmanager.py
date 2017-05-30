@@ -1,15 +1,14 @@
 import socket
 import sys
 import thread
-from findrone import Findrone
 import time
 
 RESCUER_PORT = 9119                                                     # Rescuer's app's port of listening
 RPI_PORT = 9119                                                         # RPI's port of listening for buried phone's connection
-RESCUER_ADDRESS = '192.168.43.177'                                         # TODO: fix to 192.168.0.250
+RESCUER_ADDRESS = '192.168.1.5'                                         # TODO: fix to 192.168.0.250
 BURIED_ADDRESS = ''                                                     # UNKNOWN HOST
 PACKET_DIM = 1024                                                       # Packet length for receiving data
-HOST = '192.168.43.105'                                                 # TODO: fix host addr
+HOST = '192.168.1.4'                                                 # TODO: fix host addr
 
 RESCUER = 'rescuer'
 BURIED = 'buried'
@@ -17,6 +16,7 @@ BURIED = 'buried'
 class SocketManager:
     findrone = None
     rescuer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)                                    # RPI will be the client
+    rescuer_socket.settimeout(10000)
     server_socket = socket.socket()                                     # RPI will be the server
     buried_socket = {'phone': None, 'addr':None}
     rescuer_socket_stop_connection = False                              # If we want to stop the connect
@@ -24,23 +24,32 @@ class SocketManager:
     rescuer_socket_connection_status = False                            # Connection status: False means not connected, True means connected
     buried_socket_connection_status = False
 
-    def __init__(self, findrone):
+    rescuer_message_handler = None
+    buried_message_handler = None
+
+    def __init__(self, rescuer_handler, buried_handler):
         #my_address = socket.gethostname()                        # My host address
         #print 'Address:', my_address
         self.server_socket.bind((HOST, RPI_PORT))                 # Binding port and address to this socket
+        #self.findrone = findrone
+
+        self.rescuer_message_handler = rescuer_handler
+        self.buried_message_handler = buried_handler
+
+    def set_findrone(self, findrone):
         self.findrone = findrone
 
     def message_handler(self, sender, msg):
         msg_array = msg.split(':')
-        command = msg[0]
+        command = msg_array[0]
         data_array = None
         if len(msg_array) > 1:
-            data_array = msg[1]
+            data_array = msg_array[1]
 
         if sender == RESCUER:
-            self.findrone.rescuer_socket_handler(command, data_array)
+            self.rescuer_message_handler(command, data_array)
         elif sender == BURIED:
-            self.findrone.buried_socket_handler(command, data_array)
+            self.buried_message_handler(command, data_array)
 
 
 
@@ -81,7 +90,7 @@ class SocketManager:
         print 'TRESCUER: connecting..'
         while not self.rescuer_socket_connection_status and not self.rescuer_socket_stop_connection: # Will try repeatedly until it will connect to the rescuer's app (unless the user wants to stop the connection)
             try:
-                time.sleep(1)
+                #time.sleep(1)
                 self.rescuer_socket.connect((RESCUER_ADDRESS, RESCUER_PORT))    # Tries to connect to rescuer app (it waits until a result)
                 print 'TRESCUER: connected!'
                 self.rescuer_socket_connection_status = True                    # Connected!
@@ -89,7 +98,8 @@ class SocketManager:
             except:
                 print 'TRESCUER: can\'t connect'
                 try:
-                    self.rescuer_socket = socket.socket()
+                    self.rescuer_socket.close()
+                    self.rescuer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 except:
                     pass
 
@@ -102,7 +112,7 @@ class SocketManager:
                     if number_empty_messages > 2:                       # If we received 3 consecutive messages, then stop the connection
                         self.rescuer_socket_stop_connection = True
                 else:
-                    print 'TRESCUER: received data = ', data
+                    #print 'TRESCUER: received data = ', data
                     self.message_handler(RESCUER, data)
                     number_empty_messages = 0
             except:
@@ -131,7 +141,7 @@ class SocketManager:
                     if number_empty_mess > 2:                            # If we received 3 consecutive messages, then stop the connection
                         self.buried_socket_stop_connection = True
                 else:
-                    print 'TBURIED: received data = ', data
+                    #print 'TBURIED: received data = ', data
                     self.message_handler(BURIED, data)
                     number_empty_mess = 0                                # Reset of the counter of empty messages received
             except:
@@ -143,14 +153,3 @@ class SocketManager:
         if not error:                                                    # If there was en error, then the socket should be ended
             self.buried_socket.close()
         print 'TBURIED: connection closed!'
-
-
-
-socket = SocketManager()
-socket.start_connect_rescueapp()
-
-
-
-while(True):
-    socket.send_data_rescueapp("Hello World!\n")
-    time.sleep(1)
