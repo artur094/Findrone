@@ -30,7 +30,7 @@ class WifiSignal:
             return 0
         return self.signal_list[0]
 
-    def getAVG(self, samples_number):
+    def getAVG(self, samples_number): #TODO: check if samples_number > signal_list length
         avg = 0.0
         for count in range(0, samples_number):
             avg += self.signal_list[count]['strength']
@@ -45,4 +45,6 @@ class WifiSignal:
                 avg += signal['strength']
                 count+=1
 
+        if count == 0:
+            return 0.0
         return (avg/count)

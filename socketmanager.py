@@ -5,10 +5,10 @@ import time
 
 RESCUER_PORT = 9119                                                     # Rescuer's app's port of listening
 RPI_PORT = 9119                                                         # RPI's port of listening for buried phone's connection
-RESCUER_ADDRESS = '192.168.1.5'                                         # TODO: fix to 192.168.0.250
+RESCUER_ADDRESS = '192.168.0.250'                                         # TODO: fix to 192.168.0.250
 BURIED_ADDRESS = ''                                                     # UNKNOWN HOST
 PACKET_DIM = 1024                                                       # Packet length for receiving data
-HOST = '192.168.1.4'                                                 # TODO: fix host addr
+HOST = ''                                                 # TODO: fix host addr
 
 RESCUER = 'rescuer'
 BURIED = 'buried'
@@ -137,6 +137,7 @@ class SocketManager:
             try:
                 data = self.buried_socket['phone'].recv(PACKET_DIM)      # Listen for incoming packets
                 if data == '':                                           # Check if message is empty
+                    print 'WARNING: Received empty message'
                     number_empty_mess+=1                                 # We received empty message!
                     if number_empty_mess > 2:                            # If we received 3 consecutive messages, then stop the connection
                         self.buried_socket_stop_connection = True
@@ -144,7 +145,8 @@ class SocketManager:
                     #print 'TBURIED: received data = ', data
                     self.message_handler(BURIED, data)
                     number_empty_mess = 0                                # Reset of the counter of empty messages received
-            except:
+            except Exception, err:
+                print Exception, err
                 self.buried_socket_stop_connection = True                # If there is an error, stop the connection (maybe the host crashed)
                 error = True                                             # Set error flag to True
                 print 'Connection resetted by the peer or connection error'

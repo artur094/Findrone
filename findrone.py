@@ -64,15 +64,27 @@ class Findrone:
                 self.flight_manager.stop()
 
 
+    # 'signal_strength:value=-40'
+    # 'position:longitude=20.00000;latitude=20.00000;accuracy=14.0'
     def buried_socket_handler(self, command, data):
-        print 'From buried: ', command, ': ', data
+        #print 'From buried: ', command, ': ', data
         if command == 'signal_strength':
             data_array = data.split(';')
             signal_array = data_array[0].split('=')
             signal = signal_array[1]
 
-            if self.flight_manager != None:
-                self.flight_manager.wifi.addSignal(float(signal), time.time())
+            #print 'Signal Strength received: ',signal
+
+            try:
+                float(signal)
+            except:
+                print 'Error converting this signal: "',signal,'"'
+                print 'Full data here:\n"',data,'"\n'
+
+            self.wifi_manager.addSignal(float(signal), time.time())
+            #if self.flight_manager != None:
+            #    self.flight_manager.wifi.addSignal(float(signal), time.time())
+
         if command == 'position':
             data_dict = {
                 DATA_ACCURACY: '',
@@ -97,4 +109,6 @@ class Findrone:
 findrone = Findrone()
 
 while(not findrone.finished):
-    pass
+    time.sleep(10)
+    print 'Signal AVG: ',findrone.wifi_manager.getAVG2(10)
+    print 'Length of Signal List: ', len(findrone.wifi_manager.signal_list)
