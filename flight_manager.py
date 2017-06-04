@@ -1,14 +1,16 @@
 import math, time
 from gps_module import GPSModule
 from wifi_signal import WifiSignal
+from ardrone.libardrone import ARDrone
 
 DIRECTION_LEFT = 'left'
 DIRECTION_RIGHT = 'right'
 DIRECTION_UP = 'up'
 DIRECTION_DOWN = 'down'
-TIME_TO_WAIT_BEFORE_LAND = 60 # 1 Min
+TIME_TO_WAIT_BEFORE_LAND = 1 # TODO: change to 60 sec
 
 class Flight:
+    drone = None
     phone_found_handler = None
     stop_search = False
 
@@ -37,6 +39,8 @@ class Flight:
     # Length: Meters of the length of the rectangle
     # Position: Coordinates in meters of the position of the drone
     def __init__(self, width, length, position, wifi_manager, phone_handler):
+        self.drone = ARDrone()
+        self.drone.trim()
         self.phone_found_handler = phone_handler
         self.width = width
         self.length = length
@@ -56,6 +60,7 @@ class Flight:
             self.start_direction = 'right'
 
     def start(self):
+        self.drone.takeoff()
         if self.start_direction == 'left':
             self.start_left()
         else:
@@ -66,7 +71,7 @@ class Flight:
         # Phone found --> start searching it
         # To check: enough to check the connected variable
 
-        if self.wifi.connected == True:
+        if self.wifi.connected:
             self.start_follow_wifi_signal()
             #Now I should be in the location of the buried person
             #Send notification
@@ -76,7 +81,7 @@ class Flight:
             #Job done!
             pass
 
-        #drone.land()
+        self.drone.land()
         #End... I hope for a good job!
 
     #TODO: write stop function
@@ -323,10 +328,6 @@ class Flight:
         distance = max_ss_pos['line_position'] - linear_position
         self.move_drone(direction, distance, height, False)
 
-
-
-
-
     def scan_line(self, start_position, final_position, height):
         # Stop the scan if the phone is connected to the drone
         return self.move_and_scan(start_position, final_position, height, True)
@@ -375,29 +376,32 @@ class Flight:
     # Returns True if the MOVE method has been stopped due to phone connection (on request)
     # Returns False otherwise
     def move_drone(self, direction, distance, height, stop_on_phone_connection):
+        print 'Request of movement of ', distance, ' in direction ',direction
+        self.drone.hover()
         initial_position = self.gps.getCoordinate()
         # Check direction
         if direction == DIRECTION_LEFT:
             # Move left
-            # drone.move_left()
-            pass
+            self.drone.move_left()
         if direction == DIRECTION_RIGHT:
             # Move right
-            # drone.move_right()
-            pass
+            self.drone.move_right()
         if direction == DIRECTION_UP:
             # Move drone forward
-            # drone.move_forward()
-            pass
+            self.drone.move_forward()
         if direction == DIRECTION_DOWN:
             # Move drone backward
-            # drone.move_backward()
-            pass
-
+            self.drone.move_backward()
+        print 'Moving...'
+        print 'Distance done: ',self.gps.getDistance(initial_position), 'from ', initial_position, ' to ', self.gps.getCoordinate()
         # keeps checking until the distance is greater on the one inserted or the phone is connected
-        while distance < self.gps.getDistance(initial_position):
+        while distance > self.gps.getDistance(initial_position):
+            print 'Distance done: ', self.gps.getDistance(initial_position)
             if stop_on_phone_connection and self.wifi.connected:
+                self.drone.hover()
                 return True
+        print 'End Move Drone'
+        self.drone.hover()
         return False
 
         # Stop the drone

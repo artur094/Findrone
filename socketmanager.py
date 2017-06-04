@@ -96,7 +96,7 @@ class SocketManager:
                 self.rescuer_socket_connection_status = True                    # Connected!
 
             except:
-                print 'TRESCUER: can\'t connect'
+                #print 'TRESCUER: can\'t connect'
                 try:
                     self.rescuer_socket.close()
                     self.rescuer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -139,10 +139,10 @@ class SocketManager:
                 if data == '':                                           # Check if message is empty
                     print 'WARNING: Received empty message'
                     number_empty_mess+=1                                 # We received empty message!
-                    if number_empty_mess > 2:                            # If we received 3 consecutive messages, then stop the connection
+                    if number_empty_mess > 9:                            # If we received 3 consecutive messages, then stop the connection
                         self.buried_socket_stop_connection = True
                 else:
-                    #print 'TBURIED: received data = ', data
+                    #print 'TBURIED: received data = "', data , '"'
                     self.message_handler(BURIED, data)
                     number_empty_mess = 0                                # Reset of the counter of empty messages received
             except Exception, err:

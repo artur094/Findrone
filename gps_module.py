@@ -1,6 +1,7 @@
 from math import radians, cos, sin, asin, sqrt
 import thread
-#import gps
+import time
+import gps
 
 class GPSModule:
     coordinate = (0, 0) # (latitude (N/S), longitude (E/W))
@@ -9,32 +10,33 @@ class GPSModule:
 
     def __init__(self):
         pass
-        #session = gps.gps("localhost", "2947")
-        #session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
-        #thread.start_new_thread(self.update(), ())
+        self.session = gps.gps("localhost", "2947")
+        self.session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
+        thread.start_new_thread(self.update, ())
 
 
     def update(self):
-        pass
-        '''
-        report = self.session.next()
-        if report['class'] == 'TPV':
-            if hasattr(report, 'latitude'):
-                new_coord = (report['latitude'], self.coordinate[1])
-                self.coordinate = new_coord
-            if hasattr(report, 'longitude'):
-                new_coord = (self.coordinate[0], report['longitude'])
-                self.coordinate = new_coord
-        '''
+
+        while not self.stop:
+            report = self.session.next()
+            if report['class'] == 'TPV':
+                if hasattr(report, 'lat'):
+                    new_coord = (report['lat'], self.coordinate[1])
+                    self.coordinate = new_coord
+                if hasattr(report, 'lon'):
+                    new_coord = (self.coordinate[0], report['lon'])
+                    self.coordinate = new_coord
+            time.sleep(0.1)
+
 
 
     def getCoordinate(self):
         #Return updated coordinate of the drone
-        self.update()
+        #self.update()
         return self.coordinate
 
     def getDistance(self, coordinate):
-        self.update()
+        #self.update()
         lat1 = self.getCoordinate()[0]
         lon1 = self.getCoordinate()[1]
 

@@ -1,18 +1,24 @@
-from ardrone.libardrone import ARDrone
+import flight_manager
+import thread
 import time
+import wifi_signal
+
+def safe_land_drone(drone):
+    time.sleep(4)
+    drone.land()
+    print 'WARNING: security landing'
+
+def wifi_handler():
+    print 'Wifi connection found'
+
+def phone_handler():
+    print 'Phone found'
 
 
-drone = ARDrone()
-drone.speed = 0.5
-drone.takeoff()
-time.sleep(5)
-drone.turn_left()
-time.sleep(2)
-drone.turn_right()
-time.sleep(2)
-#drone.move_forward()
-#time.sleep(3)
-#drone.move_backward()
-#time.sleep(3)
-drone.land()
-
+wifi_man = wifi_signal.WifiSignal()
+flight_man = flight_manager.Flight(0,0,(0,0),wifi_man,phone_handler)
+thread.start_new_thread(safe_land_drone, (flight_man.drone,))
+flight_man.drone.takeoff()
+flight_man.move_drone(flight_manager.DIRECTION_UP, 5, 1, True)
+flight_man.drone.land()
+flight_man.drone.halt()

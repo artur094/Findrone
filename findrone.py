@@ -78,8 +78,9 @@ class Findrone:
             try:
                 float(signal)
             except:
-                print 'Error converting this signal: "',signal,'"'
+                print 'ERROR converting this signal: "',signal,'"'
                 print 'Full data here:\n"',data,'"\n'
+                return
 
             self.wifi_manager.addSignal(float(signal), time.time())
             #if self.flight_manager != None:
@@ -107,8 +108,9 @@ class Findrone:
 
 
 findrone = Findrone()
+tsleep = 2
 
 while(not findrone.finished):
-    time.sleep(10)
-    print 'Signal AVG: ',findrone.wifi_manager.getAVG2(10)
+    time.sleep(tsleep)
+    print 'Signal AVG: ',findrone.wifi_manager.getAVG2(tsleep)
     print 'Length of Signal List: ', len(findrone.wifi_manager.signal_list)
