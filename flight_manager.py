@@ -60,11 +60,15 @@ class Flight:
             self.start_direction = 'right'
 
     def start(self):
-        self.drone.takeoff()
+        #self.drone.takeoff() #TODO: remove comment on takeoff
         if self.start_direction == 'left':
+            print 'Starting on left side of the area'
             self.start_left()
         else:
+            print 'Starting on right side of the area'
             self.start_right()
+
+        print 'Static scan ended'
 
         # When I execute this code means:
         # No phone found --> I'm already at home --> land
@@ -72,6 +76,7 @@ class Flight:
         # To check: enough to check the connected variable
 
         if self.wifi.connected:
+            print 'Starting to search the phone using wifi signal strength'
             self.start_follow_wifi_signal()
             #Now I should be in the location of the buried person
             #Send notification
@@ -82,9 +87,10 @@ class Flight:
             pass
 
         self.drone.land()
+        print 'Landing'
         #End... I hope for a good job!
 
-    #TODO: write stop function
+    #TODO: fix stop function
     def stop(self):
         self.stop_search = True
 
@@ -110,6 +116,11 @@ class Flight:
                 self.start_follow_wifi_signal()
                 return
 
+            if self.stop_search:
+                self.move(self.drone_position, self.initial_drone_position,
+                          self.height)  # TODO: avoid crash between drones!
+                return
+
             right_movement = min(2*self.delta_w, self.w[0] - self.drone_position[0])
 
             #Check if I can move on the right
@@ -127,6 +138,11 @@ class Flight:
                 self.start_follow_wifi_signal()
                 return
 
+            if self.stop_search:
+                self.move(self.drone_position, self.initial_drone_position,
+                          self.height)  # TODO: avoid crash between drones!
+                return
+
             #Go down
             next_position = (self.drone_position[0], self.orig[0] + self.delta_l)
             print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
@@ -136,6 +152,11 @@ class Flight:
             if found_wifi == True:
                 # Start specific algorithm of search
                 self.start_follow_wifi_signal()
+                return
+
+            if self.stop_search:
+                self.move(self.drone_position, self.initial_drone_position,
+                          self.height)  # TODO: avoid crash between drones!
                 return
 
             right_movement = min(2 * self.delta_w, self.w[0] - self.drone_position[0])
@@ -156,6 +177,11 @@ class Flight:
                 return
 
                 #Scanned 5 * delta_w meters in width (assuming delta_w = 2, it's 10 meters)
+
+            if self.stop_search:
+                self.move(self.drone_position, self.initial_drone_position,
+                          self.height)  # TODO: avoid crash between drones!
+                return
 
         # Need to check in detail if drone has covered all the area
         # If no WiFi connection has been found, then go home
@@ -184,6 +210,11 @@ class Flight:
                 self.start_follow_wifi_signal()
                 return
 
+            if self.stop_search:
+                self.move(self.drone_position, self.initial_drone_position,
+                          self.height)  # TODO: avoid crash between drones!
+                return
+
             left_movement = -1 * min(2 * self.delta_w, self.drone_position[0] - self.orig[0])
 
             # Check if I can move on the left
@@ -201,6 +232,11 @@ class Flight:
                 self.start_follow_wifi_signal()
                 return
 
+            if self.stop_search:
+                self.move(self.drone_position, self.initial_drone_position,
+                          self.height)  # TODO: avoid crash between drones!
+                return
+
             # Go down
             next_position = (self.drone_position[0], self.orig[0] + self.delta_l)
             print 'Scan to coordinate: ', next_position[0], ', ', next_position[1]
@@ -210,6 +246,11 @@ class Flight:
             if found_wifi == True:
                 # Start specific algorithm of search
                 self.start_follow_wifi_signal()
+                return
+
+            if self.stop_search:
+                self.move(self.drone_position, self.initial_drone_position,
+                          self.height)  # TODO: avoid crash between drones!
                 return
 
             left_movement = -1* min(2 * self.delta_w, self.drone_position[0] - self.orig[0])
@@ -227,6 +268,11 @@ class Flight:
             if found_wifi == True:
                 # Start specific algorithm of search
                 self.start_follow_wifi_signal()
+                return
+
+            if self.stop_search:
+                self.move(self.drone_position, self.initial_drone_position,
+                          self.height)  # TODO: avoid crash between drones!
                 return
 
         # Need to check in detail if drone has covered all the area
@@ -395,9 +441,15 @@ class Flight:
         print 'Moving...'
         print 'Distance done: ',self.gps.getDistance(initial_position), 'from ', initial_position, ' to ', self.gps.getCoordinate()
         # keeps checking until the distance is greater on the one inserted or the phone is connected
+        #distance = -1 #TODO REMOVE TEST CASE distance=-1
         while distance > self.gps.getDistance(initial_position):
-            print 'Distance done: ', self.gps.getDistance(initial_position)
+            #print 'Distance done: ', self.gps.getDistance(initial_position)
+            if self.stop_search and not self.wifi.connected:
+                print 'Stop moving'
+                self.drone.hover()
+                return False
             if stop_on_phone_connection and self.wifi.connected:
+                print 'Phone connected to the raspberry!'
                 self.drone.hover()
                 return True
         print 'End Move Drone'

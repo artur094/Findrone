@@ -7,7 +7,7 @@ RESCUER_PORT = 9119                                                     # Rescue
 RPI_PORT = 9119                                                         # RPI's port of listening for buried phone's connection
 RESCUER_ADDRESS = '192.168.0.250'                                         # TODO: fix to 192.168.0.250
 BURIED_ADDRESS = ''                                                     # UNKNOWN HOST
-PACKET_DIM = 1024                                                       # Packet length for receiving data
+PACKET_DIM = 4096                                                       # Packet length for receiving data
 HOST = ''                                                 # TODO: fix host addr
 
 RESCUER = 'rescuer'
@@ -26,8 +26,9 @@ class SocketManager:
 
     rescuer_message_handler = None
     buried_message_handler = None
+    phone_handler = None
 
-    def __init__(self, rescuer_handler, buried_handler):
+    def __init__(self, rescuer_handler, buried_handler, phone_connection_handler):
         #my_address = socket.gethostname()                        # My host address
         #print 'Address:', my_address
         self.server_socket.bind((HOST, RPI_PORT))                 # Binding port and address to this socket
@@ -35,6 +36,7 @@ class SocketManager:
 
         self.rescuer_message_handler = rescuer_handler
         self.buried_message_handler = buried_handler
+        self.phone_handler = phone_connection_handler
 
     def set_findrone(self, findrone):
         self.findrone = findrone
@@ -115,7 +117,10 @@ class SocketManager:
                     #print 'TRESCUER: received data = ', data
                     self.message_handler(RESCUER, data)
                     number_empty_messages = 0
-            except:
+
+            except Exception, err:
+                print Exception, err
+                error = True
                 self.rescuer_socket_stop_connection = True              # If there is an error on the connection (or the host closed it)
                 print 'Connection resetted by the peer or connection error'
 
@@ -131,6 +136,7 @@ class SocketManager:
         self.server_socket.listen(1)                                                          # Listen up to 1 connection TODO: Increment number of connection
         self.buried_socket['phone'], self.buried_socket['addr'] = self.server_socket.accept() # Accept connection, it returns the client socket and its address
         print 'TBURIED: device connected with addr: ', self.buried_socket['addr']
+        self.phone_handler()
         self.buried_socket_connection_status = True                      # Connected!
 
         while not self.buried_socket_stop_connection:                    # If we can keep alive the connection
@@ -153,5 +159,5 @@ class SocketManager:
 
         print 'TBURIED: closing connection'
         if not error:                                                    # If there was en error, then the socket should be ended
-            self.buried_socket.close()
+            self.buried_socket['phone'].close()
         print 'TBURIED: connection closed!'
