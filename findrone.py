@@ -92,6 +92,10 @@ class Findrone:
     # 'position:longitude=20.00000;latitude=20.00000;accuracy=14.0'
     def buried_socket_handler(self, command, data):
         #print 'From buried: ', command, ': ', data
+        if 'signal_strength' in data:
+            print 'Error in data, received: ',command, ':',data
+            command = 'signal_strength'
+
         if command == 'signal_strength':
             data_array = data.split(';')
             signal_array = data_array[0].split('=')
@@ -103,8 +107,17 @@ class Findrone:
                 float(signal)
             except:
                 print 'ERROR converting this signal: "',signal,'"'
-                print 'Full data here:\n"',data,'"\n'
-                return
+                print 'Trying to recover data anyway...'
+
+                if '\n' in signal:
+                    try:
+                        float(signal[:signal.index('\n')])
+                    except:
+                        "can't recover data anyway..."
+                        print 'Full data here:\n"', data, '"\n'
+                        return
+
+
 
             self.wifi_manager.addSignal(float(signal), time.time())
             #if self.flight_manager != None:
