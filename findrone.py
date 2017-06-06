@@ -21,12 +21,20 @@ class Findrone:
     flight_manager = None
     wifi_manager = None
     finished = False
+    start = False
 
     def __init__(self):
         self.wifi_manager = WifiSignal()
         self.socket_manager = SocketManager(self.rescuer_socket_handler, self.buried_socket_handler, self.buried_connected_handler)
         self.socket_manager.start_connect_rescueapp()
         self.socket_manager.start_connect_buriedapp()
+
+        while not self.start:
+            pass
+
+        self.flight_manager.start()
+        self.finished = True
+        #TODO: handle end of search
 
         #self.flight_manager = Flight()
 
@@ -69,12 +77,10 @@ class Findrone:
         if command == 'start':
             print 'Received start'
             if self.flight_manager != None:
-                print 'Starting the search'
+                print 'Setting flag to start'
                 thread.start_new_thread(self.send_gps_position_to_rescuers, ())
-                self.flight_manager.start()
-                'End of search...'
-                self.finished = True
-                #TODO: handle end of search
+                self.start = True
+                #self.flight_manager.start()
         if command == 'stop':
             print 'Received stop'
             if self.flight_manager != None:
