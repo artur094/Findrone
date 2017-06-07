@@ -21,12 +21,20 @@ class Findrone:
     flight_manager = None
     wifi_manager = None
     finished = False
+    start = False
 
     def __init__(self):
         self.wifi_manager = WifiSignal()
         self.socket_manager = SocketManager(self.rescuer_socket_handler, self.buried_socket_handler, self.buried_connected_handler)
         self.socket_manager.start_connect_rescueapp()
         self.socket_manager.start_connect_buriedapp()
+
+        while not self.start:
+            pass
+
+        self.flight_manager.start()
+        self.finished = True
+        #TODO: handle end of search
 
         #self.flight_manager = Flight()
 
@@ -69,12 +77,10 @@ class Findrone:
         if command == 'start':
             print 'Received start'
             if self.flight_manager != None:
-                print 'Starting the search'
+                print 'Setting flag to start'
                 thread.start_new_thread(self.send_gps_position_to_rescuers, ())
-                self.flight_manager.start()
-                'End of search...'
-                self.finished = True
-                #TODO: handle end of search
+                self.start = True
+                #self.flight_manager.start()
         if command == 'stop':
             print 'Received stop'
             if self.flight_manager != None:
@@ -86,6 +92,10 @@ class Findrone:
     # 'position:longitude=20.00000;latitude=20.00000;accuracy=14.0'
     def buried_socket_handler(self, command, data):
         #print 'From buried: ', command, ': ', data
+        if 'signal_strength' in data:
+            print 'Error in data, received: ',command, ':',data
+            command = 'signal_strength'
+
         if command == 'signal_strength':
             data_array = data.split(';')
             signal_array = data_array[0].split('=')
@@ -97,8 +107,17 @@ class Findrone:
                 float(signal)
             except:
                 print 'ERROR converting this signal: "',signal,'"'
-                print 'Full data here:\n"',data,'"\n'
-                return
+                print 'Trying to recover data anyway...'
+
+                if '\n' in signal:
+                    try:
+                        float(signal[:signal.index('\n')])
+                    except:
+                        "can't recover data anyway..."
+                        print 'Full data here:\n"', data, '"\n'
+                        return
+
+
 
             self.wifi_manager.addSignal(float(signal), time.time())
             #if self.flight_manager != None:
