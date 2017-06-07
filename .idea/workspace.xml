@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="47c7222b-f82b-48be-bf31-87af4e28e5f9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/findrone.py" afterPath="$PROJECT_DIR$/findrone.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/flight_manager.py" afterPath="$PROJECT_DIR$/flight_manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/socketmanager.py" afterPath="$PROJECT_DIR$/socketmanager.py" />
-    </list>
+    <list default="true" id="47c7222b-f82b-48be-bf31-87af4e28e5f9" name="Default" comment="" />
     <ignored path="raspberry.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -47,7 +42,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="socketmanager.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="socketmanager.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/socketmanager.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
@@ -59,23 +54,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flight_manager.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="flight_manager.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flight_manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="451" column="57" lean-forward="true" selection-start-line="451" selection-start-column="57" selection-end-line="451" selection-end-column="57" />
+            <state relative-caret-position="660">
+              <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
-                <element signature="e#4934#5041#0" expanded="false" />
-                <element signature="e#5657#5764#0" expanded="false" />
-                <element signature="e#6622#6822#0" expanded="false" />
-                <element signature="e#8209#8316#0" expanded="false" />
-                <element signature="e#11724#12342#0" expanded="false" />
-                <element signature="e#12466#15139#0" expanded="false" />
-                <element signature="e#15214#15348#0" expanded="false" />
-                <element signature="e#15602#15664#0" expanded="false" />
-                <element signature="e#15891#17357#0" expanded="false" />
-                <element signature="e#19156#19467#0" expanded="false" />
+                <element signature="e#4932#5039#0" expanded="false" />
+                <element signature="e#5655#5762#0" expanded="false" />
+                <element signature="e#6620#6820#0" expanded="false" />
+                <element signature="e#8207#8314#0" expanded="false" />
+                <element signature="e#11722#12340#0" expanded="false" />
+                <element signature="e#12464#15137#0" expanded="false" />
+                <element signature="e#15212#15346#0" expanded="false" />
+                <element signature="e#15600#15662#0" expanded="false" />
+                <element signature="e#15889#17355#0" expanded="false" />
+                <element signature="e#19154#19465#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -161,9 +156,9 @@
         <option value="$PROJECT_DIR$/wifi_signal.py" />
         <option value="$PROJECT_DIR$/gps_module.py" />
         <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/flight_manager.py" />
         <option value="$PROJECT_DIR$/findrone.py" />
         <option value="$PROJECT_DIR$/socketmanager.py" />
+        <option value="$PROJECT_DIR$/flight_manager.py" />
       </list>
     </option>
   </component>
@@ -174,7 +169,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1477" />
+    <option name="width" value="1920" />
     <option name="height" value="1200" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -607,17 +602,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1477" height="1200" extended-state="0" />
+    <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1728223" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13205537" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3283186" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283186" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3079646" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33628318" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33628318" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39823008" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -707,16 +702,16 @@
           <caret line="119" column="26" lean-forward="false" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
-            <element signature="e#4934#5041#0" expanded="false" />
-            <element signature="e#5657#5764#0" expanded="false" />
-            <element signature="e#6622#6822#0" expanded="false" />
-            <element signature="e#8209#8316#0" expanded="false" />
-            <element signature="e#11724#12342#0" expanded="false" />
-            <element signature="e#12466#15139#0" expanded="false" />
-            <element signature="e#15214#15348#0" expanded="false" />
-            <element signature="e#15602#15664#0" expanded="false" />
-            <element signature="e#15891#17357#0" expanded="false" />
-            <element signature="e#19156#19467#0" expanded="false" />
+            <element signature="e#4932#5039#0" expanded="false" />
+            <element signature="e#5655#5762#0" expanded="false" />
+            <element signature="e#6620#6820#0" expanded="false" />
+            <element signature="e#8207#8314#0" expanded="false" />
+            <element signature="e#11722#12340#0" expanded="false" />
+            <element signature="e#12464#15137#0" expanded="false" />
+            <element signature="e#15212#15346#0" expanded="false" />
+            <element signature="e#15600#15662#0" expanded="false" />
+            <element signature="e#15889#17355#0" expanded="false" />
+            <element signature="e#19154#19465#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -768,16 +763,16 @@
           <caret line="119" column="26" lean-forward="false" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
-            <element signature="e#4934#5041#0" expanded="false" />
-            <element signature="e#5657#5764#0" expanded="false" />
-            <element signature="e#6622#6822#0" expanded="false" />
-            <element signature="e#8209#8316#0" expanded="false" />
-            <element signature="e#11724#12342#0" expanded="false" />
-            <element signature="e#12466#15139#0" expanded="false" />
-            <element signature="e#15214#15348#0" expanded="false" />
-            <element signature="e#15602#15664#0" expanded="false" />
-            <element signature="e#15891#17357#0" expanded="false" />
-            <element signature="e#19156#19467#0" expanded="false" />
+            <element signature="e#4932#5039#0" expanded="false" />
+            <element signature="e#5655#5762#0" expanded="false" />
+            <element signature="e#6620#6820#0" expanded="false" />
+            <element signature="e#8207#8314#0" expanded="false" />
+            <element signature="e#11722#12340#0" expanded="false" />
+            <element signature="e#12464#15137#0" expanded="false" />
+            <element signature="e#15212#15346#0" expanded="false" />
+            <element signature="e#15600#15662#0" expanded="false" />
+            <element signature="e#15889#17355#0" expanded="false" />
+            <element signature="e#19154#19465#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -999,26 +994,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flight_manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="451" column="57" lean-forward="true" selection-start-line="451" selection-start-column="57" selection-end-line="451" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-            <element signature="e#4934#5041#0" expanded="false" />
-            <element signature="e#5657#5764#0" expanded="false" />
-            <element signature="e#6622#6822#0" expanded="false" />
-            <element signature="e#8209#8316#0" expanded="false" />
-            <element signature="e#11724#12342#0" expanded="false" />
-            <element signature="e#12466#15139#0" expanded="false" />
-            <element signature="e#15214#15348#0" expanded="false" />
-            <element signature="e#15602#15664#0" expanded="false" />
-            <element signature="e#15891#17357#0" expanded="false" />
-            <element signature="e#19156#19467#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/findrone.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="534">
@@ -1035,6 +1010,26 @@
           <caret line="12" column="19" lean-forward="true" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flight_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#4932#5039#0" expanded="false" />
+            <element signature="e#5655#5762#0" expanded="false" />
+            <element signature="e#6620#6820#0" expanded="false" />
+            <element signature="e#8207#8314#0" expanded="false" />
+            <element signature="e#11722#12340#0" expanded="false" />
+            <element signature="e#12464#15137#0" expanded="false" />
+            <element signature="e#15212#15346#0" expanded="false" />
+            <element signature="e#15600#15662#0" expanded="false" />
+            <element signature="e#15889#17355#0" expanded="false" />
+            <element signature="e#19154#19465#0" expanded="false" />
           </folding>
         </state>
       </provider>
