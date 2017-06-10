@@ -44,7 +44,7 @@ class Flight:
         self.phone_found_handler = phone_handler
         self.width = width
         self.length = length
-        self.wifi = wifi_manager
+        self.wifi = WifiSignal()
 
         self.w = (width, 0)
         self.l = (0, length)
@@ -77,7 +77,7 @@ class Flight:
 
         if self.wifi.connected:
             print 'Starting to search the phone using wifi signal strength'
-            self.start_follow_wifi_signal()
+            self.start_follow_wifi_signal(DIRECTION_UP, self.opposite_direction(self.start_direction), self.height)
             #Now I should be in the location of the buried person
             #Send notification
             #Wait one minute (or more)
@@ -111,9 +111,10 @@ class Flight:
             found_wifi = self.scan_line(self.drone_position, next_position, self.height)
 
             # If the drone has found a TCP connection, the start to search the wifi signal
-            if found_wifi == True:
+            if self.wifi.connected == True:
                 # Start specific algorithm of search
-                self.start_follow_wifi_signal()
+                print 'Phone connected, exiting from static search'
+                #self.start_follow_wifi_signal()
                 return
 
             if self.stop_search:
@@ -133,9 +134,10 @@ class Flight:
             self.scan_line(self.drone_position, next_position, self.height)
 
             # If the drone has found a TCP connection, the start to search the wifi signal
-            if found_wifi == True:
+            if self.wifi.connected == True:
                 # Start specific algorithm of search
-                self.start_follow_wifi_signal()
+                print 'Phone connected, exiting from static search'
+                #self.start_follow_wifi_signal()
                 return
 
             if self.stop_search:
@@ -149,9 +151,10 @@ class Flight:
             self.scan_line(self.drone_position, next_position, self.height)
 
             # If the drone has found a TCP connection, the start to search the wifi signal
-            if found_wifi == True:
+            if self.wifi.connected == True:
                 # Start specific algorithm of search
-                self.start_follow_wifi_signal()
+                print 'Phone connected, exiting from static search'
+                #self.start_follow_wifi_signal()
                 return
 
             if self.stop_search:
@@ -171,9 +174,10 @@ class Flight:
             self.scan_line(self.drone_position, next_position, self.height)
 
             # If the drone has found a TCP connection, the start to search the wifi signal
-            if found_wifi == True:
+            if self.wifi.connected == True:
                 # Start specific algorithm of search
-                self.start_follow_wifi_signal()
+                print 'Phone connected, exiting from static search'
+                #self.start_follow_wifi_signal()
                 return
 
                 #Scanned 5 * delta_w meters in width (assuming delta_w = 2, it's 10 meters)
@@ -205,9 +209,10 @@ class Flight:
             found_wifi = self.scan_line(self.drone_position, next_position, self.height)
 
             # If the drone has found a TCP connection, the start to search the wifi signal
-            if found_wifi == True:
+            if self.wifi.connected == True:
                 # Start specific algorithm of search
-                self.start_follow_wifi_signal()
+                print 'Phone connected, exiting from static search'
+                #self.start_follow_wifi_signal()
                 return
 
             if self.stop_search:
@@ -227,9 +232,10 @@ class Flight:
             self.scan_line(self.drone_position, next_position, self.height)
 
             # If the drone has found a TCP connection, the start to search the wifi signal
-            if found_wifi == True:
+            if self.wifi.connected == True:
                 # Start specific algorithm of search
-                self.start_follow_wifi_signal()
+                print 'Phone connected, exiting from static search'
+                #self.start_follow_wifi_signal()
                 return
 
             if self.stop_search:
@@ -243,9 +249,10 @@ class Flight:
             self.scan_line(self.drone_position, next_position, self.height)
 
             # If the drone has found a TCP connection, the start to search the wifi signal
-            if found_wifi == True:
+            if self.wifi.connected == True:
                 # Start specific algorithm of search
-                self.start_follow_wifi_signal()
+                print 'Phone connected, exiting from static search'
+                #self.start_follow_wifi_signal()
                 return
 
             if self.stop_search:
@@ -265,9 +272,10 @@ class Flight:
             self.scan_line(self.drone_position, next_position, self.height)
 
             # If the drone has found a TCP connection, the start to search the wifi signal
-            if found_wifi == True:
+            if self.wifi.connected == True:
                 # Start specific algorithm of search
-                self.start_follow_wifi_signal()
+                print 'Phone connected, exiting from static search'
+                #self.start_follow_wifi_signal()
                 return
 
             if self.stop_search:
@@ -307,9 +315,9 @@ class Flight:
         ss_pos_list = []
 
         ss_pos = {
-            'line_position',linear_position,
-            'gps_position', self.gps.getCoordinate(),
-            'signal_strength', self.wifi.getDistance()
+            'line_position': linear_position,
+            'gps_position': self.gps.getCoordinate(),
+            'signal_strength': self.wifi.getAVG2(time_to_wait)
         }
         ss_pos_list.append(ss_pos)
         max_ss_pos = ss_pos
@@ -321,13 +329,13 @@ class Flight:
             linear_position = linear_position + distance_movement
 
             ss_pos = {
-                'line_position', linear_position,
-                'gps_position', self.gps.getCoordinate(),
-                'signal_strength', self.wifi.getAVG2(time_to_wait)
+                'line_position': linear_position,
+                'gps_position': self.gps.getCoordinate(),
+                'signal_strength': self.wifi.getAVG2(time_to_wait)
             }
             ss_pos_list.append(ss_pos)
 
-            if ss_pos['signal_strength'] > max_ss_pos['signal_strength']:
+            if ss_pos['signal_strength'] < max_ss_pos['signal_strength']:
                 max_ss_pos = ss_pos
                 number_step_below_signal_strength = 0
             else:
@@ -353,14 +361,14 @@ class Flight:
             linear_position = linear_position - distance_movement
 
             ss_pos = {
-                'line_position', linear_position,
-                'gps_position', self.gps.getCoordinate(),
-                'signal_strength', self.wifi.AVG2(time_to_wait)
+                'line_position': linear_position,
+                'gps_position': self.gps.getCoordinate(),
+                'signal_strength': self.wifi.getAVG2(time_to_wait)
             }
 
             ss_pos_list.append(ss_pos)
 
-            if ss_pos['signal_strength'] > max_ss_pos['signal_strength']:
+            if ss_pos['signal_strength'] < max_ss_pos['signal_strength']:
                 max_ss_pos = ss_pos
                 number_step_below_signal_strength = 0
             else:
@@ -439,20 +447,23 @@ class Flight:
             # Move drone backward
             self.drone.move_backward()
         print 'Moving...'
-        print 'Distance done: ',self.gps.getDistance(initial_position), 'from ', initial_position, ' to ', self.gps.getCoordinate()
+        #print 'Distance done: ',self.gps.getDistance(initial_position), 'from ', initial_position, ' to ', self.gps.getCoordinate()
         # keeps checking until the distance is greater on the one inserted or the phone is connected
-        #distance = -1 #TODO REMOVE TEST CASE distance=-1
+        if not stop_on_phone_connection:
+            distance = -1 #TODO REMOVE TEST CASE distance=-1
         while distance > self.gps.getDistance(initial_position):
+            time.sleep(1)
+            print stop_on_phone_connection, self.wifi.connected
             #print 'Distance done: ', self.gps.getDistance(initial_position)
-            if self.stop_search and not self.wifi.connected:
-                print 'Stop moving'
-                self.drone.hover()
-                return False
+            #if self.stop_search and not self.wifi.connected:
+            #    print 'Stop moving'
+            #    self.drone.hover()
+            #    return False
             if stop_on_phone_connection and self.wifi.connected:
                 print 'Phone connected to the raspberry!'
                 self.drone.hover()
                 return True
-        print 'End Move Drone'
+        print 'Reached Destination'
         self.drone.hover()
         return False
 

@@ -1,5 +1,5 @@
 from socketmanager import *
-from flight_manager import *
+#from flight_manager import *
 from wifi_signal import *
 import time
 import thread
@@ -18,7 +18,7 @@ DATA_POSITION = 'position'
 
 class Findrone:
     socket_manager = None
-    flight_manager = None
+    #flight_manager = None
     #wifi_manager = None
     finished = False
     start = False
@@ -42,14 +42,14 @@ class Findrone:
 
     def send_gps_position_to_rescuers(self):
         while not self.finished:
-            self.socket_manager.send_data_rescueapp(COMMAND_DRONE_POSITION+':'+DATA_LONGITUDE+'='+str(self.flight_manager.gps.getCoordinate()[1])+';'+DATA_LATITUDE+'='+str(self.flight_manager.gps.getCoordinate()[0])+'\n')
+            self.socket_manager.send_data_rescueapp(COMMAND_DRONE_POSITION+':'+DATA_LONGITUDE+'='+'0.0000'+';'+DATA_LATITUDE+'='+'0.0000'+'\n')
             time.sleep(0.5)
 
     def buried_connected_handler(self):
         print 'Setting wifi connected to True'
         self.phone_connected = True
-        if self.flight_manager is not None:
-            self.flight_manager.wifi.connected = True
+        #if self.flight_manager is not None:
+        #    self.flight_manager.wifi.connected = True
         print 'Sending data to rescuers'
         self.socket_manager.send_data_rescueapp(COMMAND_PHONE_CONNECTED)
 
@@ -77,20 +77,21 @@ class Findrone:
                 if item_array[0] == DATA_POSITION:
                     data_dict[DATA_POSITION] = int(item_array[1])
 
-            self.flight_manager = Flight(data_dict[DATA_WIDTH], data_dict[DATA_LENGTH], (data_dict[DATA_POSITION], 0), None, self.buried_found_handler)
-            self.flight_manager.wifi.connected=self.phone_connected
+            print 'Drone configured with:\nwidth = ',data_dict[DATA_WIDTH],'\n length = ',data_dict[DATA_LENGTH],'\n position = ',data_dict[DATA_POSITION]
+            #self.flight_manager = Flight(data_dict[DATA_WIDTH], data_dict[DATA_LENGTH], (data_dict[DATA_POSITION], 0), None, self.buried_found_handler)
+            #self.flight_manager.wifi.connected=self.phone_connected
         if command == 'start':
             print 'Received start'
-            if self.flight_manager != None:
-                print 'Setting flag to start'
-                thread.start_new_thread(self.send_gps_position_to_rescuers, ())
-                self.start = True
+            #if self.flight_manager != None:
+            #    print 'Setting flag to start'
+            #    thread.start_new_thread(self.send_gps_position_to_rescuers, ())
+            #    self.start = True
                 #self.flight_manager.start()
         if command == 'stop':
             print 'Received stop'
-            if self.flight_manager != None:
-                print 'Stopping the search'
-                self.flight_manager.stop()
+            #if self.flight_manager != None:
+            #    print 'Stopping the search'
+            #    self.flight_manager.stop()
 
 
     # 'signal_strength:value=-40'
@@ -114,8 +115,8 @@ class Findrone:
             except:
                 print 'ERROR converting this signal: "',signal,'"'
 
-            if self.flight_manager != None:
-                self.flight_manager.wifi.addSignal(float(signal), time.time())
+            #if self.flight_manager != None:
+            #    self.flight_manager.wifi.addSignal(float(signal), time.time())
             #if self.flight_manager != None:
             #    self.flight_manager.wifi.addSignal(float(signal), time.time())
 
@@ -140,20 +141,6 @@ class Findrone:
 
             #print 'Sent phone position to rescueapp'
             self.socket_manager.send_data_rescueapp(COMMAND_PHONE_POSITION+':'+DATA_LONGITUDE+'='+data_dict[DATA_LONGITUDE]+';'+DATA_LATITUDE+'='+data_dict[DATA_LATITUDE]+';'+ DATA_ACCURACY+'='+data_dict[DATA_ACCURACY]+'\n')
-
-    def test(self):
-        print 'Starting test case: BURIED INTEGRATION'
-        print 'Initializing flight manager...'
-        self.flight_manager = Flight(0,0,(0,0), None, self.buried_found_handler)
-        print 'Done!'
-        print 'Sending move action to drone...'
-        found = self.flight_manager.move_drone(DIRECTION_UP, 5, 1, True)
-
-        if found:
-            'Phone Connected!'
-        else:
-            'Phone not found...'
-        print 'END TEST CASE'
 
 
 findrone = Findrone()

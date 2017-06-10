@@ -9,7 +9,6 @@ class GPSModule:
     session = None
 
     def __init__(self):
-        pass
         self.session = gps.gps("localhost", "2947")
         self.session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
         thread.start_new_thread(self.update, ())
