@@ -1,6 +1,6 @@
 from socketmanager import *
 #from flight_manager import *
-from wifi_signal import *
+#from wifi_signal import *
 import time
 import thread
 
