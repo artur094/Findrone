@@ -5,7 +5,7 @@ class WifiSignal:
     connected = False
     signal_list = []
     max_size_signal_list = 10000
-    strength = 0 # dBm (the formula requires the number in dBm)
+    strength = -1000 # dBm (the formula requires the number in dBm)
     frequency = 2412  #2412MHz (the formula requires the number in MHz)
     best_position_found = ((0,0), 0) #First element: coordinates, second element: signal strength in that point
 
@@ -30,11 +30,14 @@ class WifiSignal:
             return 0
         return self.signal_list[0]
 
-    def getAVG(self, samples_number): #TODO: check if samples_number > signal_list length
+    def getAVG(self, samples_number):
+        nr_samples = min(len(self.signal_list), samples_number)
+        if nr_samples == 0:
+            return -1000.0
         avg = 0.0
-        for count in range(0, samples_number):
+        for count in range(0, nr_samples):
             avg += self.signal_list[count]['strength']
-        return (avg/samples_number)
+        return (avg/nr_samples)
 
     def getAVG2(self, interval_time): #Interval_time is in [s]
         avg = 0.0
@@ -46,5 +49,5 @@ class WifiSignal:
                 count+=1
 
         if count == 0:
-            return 0.0
+            return -10000.0
         return (avg/count)

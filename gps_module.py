@@ -4,7 +4,7 @@ import time
 import gps
 
 class GPSModule:
-    coordinate = (0, 0) # (latitude (N/S), longitude (E/W))
+    coordinate = (0.0, 0.0) # (latitude (N/S), longitude (E/W))
     stop = False
     session = None
 

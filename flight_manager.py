@@ -3,11 +3,12 @@ from gps_module import GPSModule
 from wifi_signal import WifiSignal
 from ardrone.libardrone import ARDrone
 
+
 DIRECTION_LEFT = 'left'
 DIRECTION_RIGHT = 'right'
 DIRECTION_UP = 'up'
 DIRECTION_DOWN = 'down'
-TIME_TO_WAIT_BEFORE_LAND = 1 # TODO: change to 60 sec
+TIME_TO_WAIT_BEFORE_LAND = 60 # TODO: change to 60 sec
 
 class Flight:
     drone = None
@@ -28,9 +29,9 @@ class Flight:
     initial_drone_position = (0,0)
     initial_drone_coordinate = (0,0)
     drone_position = (0,0)
-    gps = GPSModule()
+    #gps = GPSModule()
     wifi = None
-
+    gps = None
     start_direction = 'left'
 
     #connected = False       # Says if a phone is connected to the drone through TCP connection
@@ -38,14 +39,18 @@ class Flight:
     # Width: Meters of the width of the rectangle
     # Length: Meters of the length of the rectangle
     # Position: Coordinates in meters of the position of the drone
-    def __init__(self, width, length, position, wifi_manager, phone_handler):
+    def __init__(self, width, length, position, wifi_manager, phone_handler, gps_module):
         self.drone = ARDrone()
+        print 'configured drone'
         self.drone.trim()
         self.phone_found_handler = phone_handler
         self.width = width
         self.length = length
+        #self.gps = GPSModule()
+        self.gps = gps_module
+        print 'configured gps'
         self.wifi = WifiSignal()
-
+        print 'configured wifi'
         self.w = (width, 0)
         self.l = (0, length)
         self.wl = (width, length)
@@ -60,7 +65,11 @@ class Flight:
             self.start_direction = 'right'
 
     def start(self):
-        #self.drone.takeoff() #TODO: remove comment on takeoff
+        #gps = GPSModule()
+        while self.gps.getCoordinate()[0] == 0.0 or self.gps.getCoordinate()[1] == 0:
+            print 'Waiting gps...'
+            time.sleep(0.5)
+        self.drone.takeoff() #TODO: remove comment on takeoff
         if self.start_direction == 'left':
             print 'Starting on left side of the area'
             self.start_left()
@@ -201,7 +210,6 @@ class Flight:
         self.move(self.drone_position, starting_point, self.height)
 
         # Start the scan
-        # TODO: fix last scan
         while self.drone_position[0] >= self.orig[0]:
             # Go upper
             next_position = (self.drone_position[0], self.l[1] - self.delta_l)
@@ -335,7 +343,7 @@ class Flight:
             }
             ss_pos_list.append(ss_pos)
 
-            if ss_pos['signal_strength'] < max_ss_pos['signal_strength']:
+            if ss_pos['signal_strength'] > max_ss_pos['signal_strength']:
                 max_ss_pos = ss_pos
                 number_step_below_signal_strength = 0
             else:
@@ -368,7 +376,7 @@ class Flight:
 
             ss_pos_list.append(ss_pos)
 
-            if ss_pos['signal_strength'] < max_ss_pos['signal_strength']:
+            if ss_pos['signal_strength'] > max_ss_pos['signal_strength']:
                 max_ss_pos = ss_pos
                 number_step_below_signal_strength = 0
             else:
@@ -449,11 +457,11 @@ class Flight:
         print 'Moving...'
         #print 'Distance done: ',self.gps.getDistance(initial_position), 'from ', initial_position, ' to ', self.gps.getCoordinate()
         # keeps checking until the distance is greater on the one inserted or the phone is connected
-        if not stop_on_phone_connection:
-            distance = -1 #TODO REMOVE TEST CASE distance=-1
+        #if not stop_on_phone_connection:
+        #    distance = -1 #TODO REMOVE TEST CASE distance=-1
         while distance > self.gps.getDistance(initial_position):
             time.sleep(1)
-            print stop_on_phone_connection, self.wifi.connected
+            #print stop_on_phone_connection, self.wifi.connected
             #print 'Distance done: ', self.gps.getDistance(initial_position)
             #if self.stop_search and not self.wifi.connected:
             #    print 'Stop moving'

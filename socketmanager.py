@@ -4,10 +4,10 @@ import thread
 import time
 import os
 
+ID='Drone2'
 RESCUER_PORT = 9119                                                     # Rescuer's app's port of listening
 RPI_PORT = 9119                                                         # RPI's port of listening for buried phone's connection
-RESCUER_ADDRESS = '192.168.0.250'
-RESCUER_ADDRESS_2 = '192.168.0.249'                                         # TODO: fix to 192.168.0.250
+RESCUER_ADDRESSES = ['192.168.0.4', '192.168.0.5', '192.168.0.6', '192.168.0.7', '192.168.0.8', '192.168.0.9','192.168.0.10']
 BURIED_ADDRESS = ''                                                     # UNKNOWN HOST
 PACKET_DIM = 4096                                                       # Packet length for receiving data
 HOST = ''                                                 # TODO: fix host addr
@@ -61,7 +61,8 @@ class SocketManager:
         while not self.rescuer_socket_stop_connection and not self.rescuer_socket_connection_status:    # Wait that the connection becomes available (or it stop if someone stopped the connection)
             pass
         if not self.rescuer_socket_stop_connection and self.rescuer_socket_connection_status:           # Check if the socket can send data
-            self.rescuer_socket.send(message)                                                           # Send data
+            #print 'Sending: ',message
+            self.rescuer_socket.send(message+'\n')                                                           # Send data
 
     def send_data_buriedapp(self, message):
         while not self.buried_socket_stop_connection and not self.buried_socket_connection_status:      # Wait that the connection becomes available (or it stop if someone stopped the connection)
@@ -87,8 +88,8 @@ class SocketManager:
         print 'starting thread for buried app connection..'
         thread.start_new_thread(self.thread_connection_buriedapp, ())   # Start thread to talk with buried app
 
-    #TODO: fix connection problem if the server is not running
     def thread_connection_rescueapp(self):
+        data=''
         number_empty_messages = 0                                       # If the client stop the connection, the receiver starts to receive empty messages
         error = False                                                   # Tells us if the connection was closed due to an error
         rescuer_host = self.get_rescuer_host()
@@ -99,6 +100,7 @@ class SocketManager:
                 self.rescuer_socket.connect((rescuer_host, RESCUER_PORT))    # Tries to connect to rescuer app (it waits until a result)
                 print 'TRESCUER: connected!'
                 self.rescuer_socket_connection_status = True                    # Connected!
+                self.send_data_rescueapp(ID)
 
             except:
                 #print 'TRESCUER: can\'t connect'
@@ -110,15 +112,21 @@ class SocketManager:
 
         while not self.rescuer_socket_stop_connection:                  # If we can keep alive the connection
             try:
-                data = self.rescuer_socket.recv(PACKET_DIM)             # Listen for incoming packets
+                #data = self.rescuer_socket.recv(PACKET_DIM)             # Listen for incoming packets
+                data += self.rescuer_socket.recv(PACKET_DIM)
 
                 if data == '':                                          # Check if message is empty
                     number_empty_messages+=1                            # We received empty message!
                     if number_empty_messages > 2:                       # If we received 3 consecutive messages, then stop the connection
                         self.rescuer_socket_stop_connection = True
                 else:
+                    while '\n' in data:
+                        mess = data[:data.index('\n')]
+                        data = data[data.index('\n')+1:]
+                        if mess != '':
+                            self.message_handler(RESCUER, mess)
                     #print 'TRESCUER: received data = ', data
-                    self.message_handler(RESCUER, data)
+                    #self.message_handler(RESCUER, data)
                     number_empty_messages = 0
 
             except Exception, err:
@@ -143,9 +151,10 @@ class SocketManager:
         self.phone_handler()
         self.buried_socket_connection_status = True                      # Connected!
 
+
         while not self.buried_socket_stop_connection:                    # If we can keep alive the connection
             try:
-                data += self.buried_socket['phone'].recv(PACKET_DIM)      # Listen for incoming packets
+                data += self.buried_socket['phone'].recv(PACKET_DIM)     # Listen for incoming packets
                 if data == '':                                           # Check if message is empty
                     print 'WARNING: Received empty message'
                     number_empty_mess+=1                                 # We received empty message!
@@ -173,10 +182,10 @@ class SocketManager:
     def get_rescuer_host(self):
         host = ''
         while host == '':
-            if self.ping(RESCUER_ADDRESS) == 0:
-                host = RESCUER_ADDRESS
-            elif self.ping(RESCUER_ADDRESS_2) == 0:
-                host = RESCUER_ADDRESS_2
+            for rescuer_addr in RESCUER_ADDRESSES:
+                if self.ping(rescuer_addr) == 0:
+                    host = rescuer_addr
+                    return host
         return host
 
     def ping(self, host):
